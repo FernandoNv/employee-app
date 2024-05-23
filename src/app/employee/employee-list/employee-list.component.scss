@@ -1,0 +1,12 @@
+.app-container{
+  @apply container px-4;
+
+  h1{
+    @apply text-center p-4;
+    margin: 0;
+  }
+
+  .app-table {
+    @apply w-full block overflow-x-scroll md:w-fit md:table md:overflow-x-auto;
+  }
+}

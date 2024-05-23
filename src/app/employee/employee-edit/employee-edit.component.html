@@ -1,5 +1,5 @@
 <div class="app-container">
-  <h1 class="app-title">Cadastro de Funcionário</h1>
+  <h1 class="app-title">Edição de Funcionário</h1>
   <form
     [formGroup]="employeeForm"
     class="flex flex-col px-4"
@@ -178,12 +178,17 @@
           min="1200" />
       </mat-form-field>
     </fieldset>
-    <button
-      [disabled]="!employeeForm.valid"
-      mat-flat-button
-      color="primary"
-      class="mt-6 mb-8 md:self-end">
-      Cadastrar
-    </button>
+    <div class="flex justify-between">
+      <button routerLink="/funcionario" mat-flat-button class="mt-6 mb-8">
+        Cancelar
+      </button>
+      <button
+        [disabled]="!employeeForm.valid"
+        mat-flat-button
+        color="primary"
+        class="mt-6 mb-8 md:self-end">
+        Salvar Edição
+      </button>
+    </div>
   </form>
 </div>
