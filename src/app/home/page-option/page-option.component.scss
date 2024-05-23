@@ -1,0 +1,18 @@
+.app-page-option{
+  @apply w-72 h-full md:w-[350px] md:h-[350px] px-4 py-6 border-4 border-gray-600 flex flex-col items-center justify-center text-gray-500 cursor-pointer;
+
+  .app-title, .app-subtitle{
+    @apply text-center;
+  }
+
+  .app-title{
+    @apply pt-6 text-lg text-gray-700;
+  }
+
+  .app-subtitle{
+    @apply text-base;
+  }
+  .icon{
+    @apply text-5xl w-32 h-32 flex justify-center items-center border-4 rounded-full border-gray-500;
+  }
+}

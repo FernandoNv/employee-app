@@ -1,0 +1,15 @@
+<div class="app-container">
+  <h1 class="app-title">Opções</h1>
+  <div class="app-options">
+    @for (item of pageOptions(); track item.title) {
+      <app-page-option
+        class="app-card"
+        [title]="item.title"
+        [subtitle]="item.subtitle"
+        [icon]="item.icon"
+        [link]="item.link" />
+    } @empty {
+      <p>Sem opções por hora...</p>
+    }
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <a routerLink="/inicio">EmployeeApp</a>
+    <span class="example-spacer"></span>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/inicio">Início</button>
+      <button mat-menu-item routerLink="/funcionario/criar">
+        Novo funcionário
+      </button>
+      <button mat-menu-item routerLink="/funcionario">
+        Listar Funcionários
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
