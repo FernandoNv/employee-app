@@ -1,23 +1,23 @@
 export interface IEmployee {
-  id: number;
+  id?: number;
+  name: string;
+  seniority: ISeniority;
   cpf: string;
-  nome: string;
+  phone: string;
   email: string;
-  dataNascimento: string;
-  telefone: string;
-  endereco: {
-    cep: string;
-    rua: string;
-    numero: number;
-    bairro: string;
-    cidade: string;
-    uf: string;
-    complemento?: string;
+  birthDate: string;
+  salary: number;
+  address: {
+    address: string;
+    number: number;
+    neighborhood: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    address2?: string;
   };
-  departamento: string;
-  cargo: string;
-  nivel: ILevel;
-  salario: number;
+  department: string;
+  position: string;
 }
 
-export type ILevel = 'JUNIOR' | 'PLENO' | 'SENIOR';
+export type ISeniority = 'JUNIOR' | 'PLENO' | 'SENIOR';

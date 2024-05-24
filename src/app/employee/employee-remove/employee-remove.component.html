@@ -1,12 +1,11 @@
 <div class="app-container">
   <h2 mat-dialog-title>Remover Funcionário</h2>
   <mat-dialog-content>
-    <p>Funcionário: Fernando</p>
-    <p>ID: {{ data.id }}</p>
-    <p>CPF: 123.123.123-12</p>
-    <p>Cargo: Assistente</p>
-    <p>Nível: JÚNIOR</p>
-    <p>Departamento: TI</p>
+    <p>Funcionário: {{ data.employee.name }}</p>
+    <p>ID: {{ data.employee.id }}</p>
+    <p>Cargo: {{ data.employee.position }}</p>
+    <p>Nível: {{ data.employee.seniority }}</p>
+    <p>Departamento: {{ data.employee.department }}</p>
   </mat-dialog-content>
   <mat-dialog-actions class="flex items-center justify-between">
     <button mat-flat-button class="relative" (click)="onCancelClick()">
@@ -16,8 +15,7 @@
       mat-flat-button
       color="warn"
       class="relative"
-      [mat-dialog-close]="data.id"
-      cdkFocusInitial>
+      (click)="onDeleteClick()">
       Remover
     </button>
   </mat-dialog-actions>

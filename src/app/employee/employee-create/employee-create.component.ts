@@ -1,74 +1,75 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormEmployeeComponent } from '../form-employee/form-employee.component';
+import { Router } from '@angular/router';
+import { EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-employee-create',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [FormEmployeeComponent],
   providers: [provideNativeDateAdapter()],
   templateUrl: './employee-create.component.html',
   styleUrl: './employee-create.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeCreateComponent {
-  employeeForm = new FormGroup({
-    nome: new FormControl('', [Validators.required]),
-    cpf: new FormControl('', [Validators.required]),
+  private router = inject(Router);
+  private employeeService = inject(EmployeeService);
+
+  protected employeeForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    cpf: new FormControl('', [
+      Validators.required,
+      Validators.minLength(14),
+      Validators.maxLength(14),
+    ]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    telefone: new FormControl('', [Validators.required]),
-    dataNascimento: new FormControl('', [Validators.required]),
-    endereco: new FormGroup({
-      cep: new FormControl('', [
+    birthDate: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.minLength(14),
+      Validators.maxLength(15),
+    ]),
+    address: new FormGroup({
+      postalCode: new FormControl('', [
         Validators.required,
         Validators.maxLength(9),
         Validators.minLength(9),
       ]),
-      rua: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      numero: new FormControl('', [Validators.required, Validators.min(1)]),
-      bairro: new FormControl('', [
+      address: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      cidade: new FormControl('', [
+      number: new FormControl('', [Validators.required, Validators.min(1)]),
+      neighborhood: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      uf: new FormControl('', [
+      city: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      state: new FormControl('', [
         Validators.required,
         Validators.maxLength(2),
         Validators.minLength(2),
       ]),
-      complemento: new FormControl(''),
+      address2: new FormControl(),
     }),
-    contratual: new FormGroup({
-      departamento: new FormControl('', [Validators.required]),
-      cargo: new FormControl('', [Validators.required]),
-      nivel: new FormControl('', [Validators.required]),
-      salario: new FormControl('', [Validators.required, Validators.min(1200)]),
+    contractual: new FormGroup({
+      department: new FormControl('', [Validators.required]),
+      position: new FormControl('', [Validators.required]),
+      seniority: new FormControl('', [Validators.required]),
+      salary: new FormControl('', [Validators.required, Validators.min(1200)]),
     }),
   });
 
   onSubmitValues(): void {
-    console.log(this.employeeForm.getRawValue());
+    const valuesFormatted = this.employeeService.formatDataSave(
+      this.employeeForm.getRawValue()
+    );
+
+    this.employeeService
+      .create(valuesFormatted)
+      .subscribe(() => this.router.navigate(['/funcionario']));
   }
 }

@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -7,38 +13,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { IEmployee } from '../employee';
-import { EmployeeMockService } from '../employee-mock.service';
 import { EmployeeService } from '../employee.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { parseDMY } from '../../shared/utils/utils';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FormEmployeeComponent } from '../form-employee/form-employee.component';
+import { parseYMD } from '../../shared/utils/utils';
 
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterLink,
+    MatProgressSpinner,
+    FormEmployeeComponent,
   ],
-  providers: [
-    provideNativeDateAdapter(),
-    {
-      provide: EmployeeService,
-      useClass: EmployeeMockService,
-    },
-  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,67 +37,97 @@ import { parseDMY } from '../../shared/utils/utils';
 export class EmployeeEditComponent {
   private employeeService = inject(EmployeeService);
   private route: ActivatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   protected readonly id: number = Number(this.route.snapshot.params['id']);
-  protected readonly employee = toSignal(
-    this.employeeService.getById(this.id),
-    { initialValue: {} as IEmployee }
+  protected readonly employeeDataAPI = toSignal(
+    this.employeeService.getById(this.id)
   );
+  protected readonly employee = computed(() => this.employeeDataAPI()?.data);
+  protected isLoading = toSignal(this.employeeService.getLoading());
+  protected employeeForm!: FormGroup;
 
-  employeeForm = new FormGroup({
-    nome: new FormControl(this.employee().nome, [Validators.required]),
-    cpf: new FormControl(this.employee().cpf, [Validators.required]),
-    email: new FormControl(this.employee().email, [
-      Validators.required,
-      Validators.email,
-    ]),
-    dataNascimento: new FormControl(parseDMY(this.employee().dataNascimento), [
-      Validators.required,
-    ]),
-    telefone: new FormControl(this.employee().telefone, [Validators.required]),
-    endereco: new FormGroup({
-      cep: new FormControl(this.employee().endereco.cep, [
-        Validators.required,
-        Validators.maxLength(9),
-        Validators.minLength(9),
-      ]),
-      rua: new FormControl(this.employee().endereco.rua, [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      numero: new FormControl(this.employee().endereco.numero, [
-        Validators.required,
-        Validators.min(1),
-      ]),
-      bairro: new FormControl(this.employee().endereco.bairro, [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      cidade: new FormControl(this.employee().endereco.cidade, [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      uf: new FormControl(this.employee().endereco.uf, [
-        Validators.required,
-        Validators.maxLength(2),
-        Validators.minLength(2),
-      ]),
-      complemento: new FormControl(this.employee().endereco.complemento),
-    }),
-    contratual: new FormGroup({
-      departamento: new FormControl(this.employee().departamento, [
-        Validators.required,
-      ]),
-      cargo: new FormControl(this.employee().cargo, [Validators.required]),
-      nivel: new FormControl(this.employee().nivel, [Validators.required]),
-      salario: new FormControl(this.employee().salario, [
-        Validators.required,
-        Validators.min(1200),
-      ]),
-    }),
-  });
+  constructor() {
+    effect(() => {
+      if (this.employee() !== undefined) {
+        this.employeeForm = new FormGroup({
+          name: new FormControl(this.employee()?.name, [
+            Validators.required,
+            Validators.minLength(3),
+          ]),
+          cpf: new FormControl(this.employee()?.cpf, [
+            Validators.required,
+            Validators.minLength(14),
+            Validators.maxLength(14),
+          ]),
+          email: new FormControl(this.employee()?.email, [
+            Validators.required,
+            Validators.email,
+          ]),
+          birthDate: new FormControl(parseYMD(this.employee()!.birthDate), [
+            Validators.required,
+          ]),
+          phone: new FormControl(this.employee()?.phone, [
+            Validators.required,
+            Validators.minLength(14),
+            Validators.maxLength(15),
+          ]),
+          address: new FormGroup({
+            postalCode: new FormControl(this.employee()?.address.postalCode, [
+              Validators.required,
+              Validators.maxLength(9),
+              Validators.minLength(9),
+            ]),
+            address: new FormControl(this.employee()?.address.address, [
+              Validators.required,
+              Validators.minLength(3),
+            ]),
+            number: new FormControl(this.employee()?.address.number, [
+              Validators.required,
+              Validators.min(1),
+            ]),
+            neighborhood: new FormControl(
+              this.employee()?.address.neighborhood,
+              [Validators.required, Validators.minLength(3)]
+            ),
+            city: new FormControl(this.employee()?.address.city, [
+              Validators.required,
+              Validators.minLength(3),
+            ]),
+            state: new FormControl(this.employee()?.address.state, [
+              Validators.required,
+              Validators.maxLength(2),
+              Validators.minLength(2),
+            ]),
+            address2: new FormControl(this.employee()?.address?.address2),
+          }),
+          contractual: new FormGroup({
+            department: new FormControl(this.employee()?.department, [
+              Validators.required,
+            ]),
+            position: new FormControl(this.employee()?.position, [
+              Validators.required,
+            ]),
+            seniority: new FormControl(this.employee()?.seniority, [
+              Validators.required,
+            ]),
+            salary: new FormControl(this.employee()?.salary, [
+              Validators.required,
+              Validators.min(1200),
+            ]),
+          }),
+        });
+      }
+    });
+  }
 
   onSubmitValues(): void {
-    console.log(this.employeeForm.getRawValue());
+    const valuesFormatted = this.employeeService.formatDataSave(
+      this.employeeForm.getRawValue()
+    );
+
+    this.employeeService
+      .update(this.id, valuesFormatted)
+      .subscribe(() => this.router.navigate(['/funcionario']));
   }
 }

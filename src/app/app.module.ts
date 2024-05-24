@@ -8,9 +8,10 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
 import { HeaderComponent } from './shared/header/header.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const appComponents = [HeaderComponent];
-const ngModules = [BrowserModule, AppRoutingModule];
+const ngModules = [BrowserModule, AppRoutingModule, HttpClientModule];
 
 registerLocaleData(localePt, 'pt');
 

@@ -1,0 +1,199 @@
+<form
+  [formGroup]="employeeForm()"
+  class="flex flex-col px-4"
+  (ngSubmit)="onSubmitValues()">
+  <fieldset>
+    <legend>Informações pessoais</legend>
+    <div class="pb-4 flex flex-col md:justify-between md:flex-row">
+      <mat-form-field class="w-full md:w-9/12">
+        <mat-label>Nome: </mat-label>
+        <input
+          matInput
+          placeholder="Insira o primeiro nome"
+          type="text"
+          id="name"
+          formControlName="name"
+          name="name" />
+      </mat-form-field>
+      <mat-form-field class="w-full pb-2 md:pb-0 md:pl-4 md:w-3/12">
+        <mat-label>Data de Nascimento: </mat-label>
+        <input matInput formControlName="birthDate" [matDatepicker]="picker" />
+        <mat-hint>DD/MM/AAAA</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="input-area">
+      <mat-label>CPF: </mat-label>
+      <input
+        matInput
+        formControlName="cpf"
+        placeholder="123.123.124-89"
+        type="text"
+        id="cpf"
+        name="cpf" />
+    </mat-form-field>
+    <mat-form-field class="input-area">
+      <mat-label>E-mail: </mat-label>
+      <input
+        matInput
+        formControlName="email"
+        placeholder="email@email.com"
+        type="email"
+        id="email"
+        name="email" />
+    </mat-form-field>
+    <mat-form-field class="input-area">
+      <mat-label>Telefone: </mat-label>
+      <input
+        matInput
+        formControlName="phone"
+        placeholder="(11) 1111-1111"
+        type="text"
+        id="phone"
+        name="phone" />
+    </mat-form-field>
+    <fieldset formGroupName="address">
+      <legend>Endereço</legend>
+      <mat-form-field class="input-area">
+        <mat-label>CEP: </mat-label>
+        <input
+          matInput
+          formControlName="postalCode"
+          placeholder="12345-123"
+          type="text"
+          id="cep"
+          name="cep" />
+      </mat-form-field>
+      <div class="pb-4 flex flex-col md:justify-between md:flex-row">
+        <mat-form-field class="w-full md:w-9/12">
+          <mat-label>Rua: </mat-label>
+          <input
+            matInput
+            formControlName="address"
+            placeholder="Nome da Rua ou avenida"
+            type="text"
+            id="rua"
+            name="rua" />
+        </mat-form-field>
+        <mat-form-field class="w-full pb-2 md:pb-0 md:pl-4 md:w-3/12">
+          <mat-label>Numero: </mat-label>
+          <input
+            matInput
+            formControlName="number"
+            placeholder="123"
+            type="number"
+            id="numero"
+            name="numero" />
+        </mat-form-field>
+      </div>
+      <mat-form-field class="input-area">
+        <mat-label>Bairro: </mat-label>
+        <input
+          matInput
+          formControlName="neighborhood"
+          placeholder="Bairro"
+          type="text"
+          id="bairro"
+          name="bairro" />
+      </mat-form-field>
+      <div class="pb-4 flex flex-col md:justify-between md:flex-row">
+        <mat-form-field class="w-full md:w-9/12">
+          <mat-label>Cidade: </mat-label>
+          <input
+            matInput
+            formControlName="city"
+            placeholder="Cidade"
+            type="text"
+            id="cidade"
+            name="cidade" />
+        </mat-form-field>
+        <mat-form-field class="w-full pb-2 md:pb-0 md:pl-4 md:w-3/12">
+          <mat-label>UF: </mat-label>
+          <input
+            matInput
+            formControlName="state"
+            placeholder="RJ"
+            type="text"
+            id="uf"
+            name="uf" />
+        </mat-form-field>
+      </div>
+      <mat-form-field class="input-area">
+        <mat-label>Complemento: </mat-label>
+        <input
+          matInput
+          formControlName="address2"
+          placeholder="Complemento"
+          type="text"
+          id="complemento"
+          name="complemento" />
+      </mat-form-field>
+    </fieldset>
+  </fieldset>
+  <fieldset formGroupName="contractual">
+    <legend>Informações Contratuais</legend>
+    <mat-form-field class="input-area">
+      <mat-label>Departamento</mat-label>
+      <mat-select
+        formControlName="department"
+        (valueChange)="updatePositions($event)">
+        @for (department of departmentList(); track department.id) {
+          <mat-option [value]="department.name">{{
+            department.name
+          }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="input-area">
+      <mat-label>Cargo: </mat-label>
+      <mat-select formControlName="position">
+        @if (departmentSelected()) {
+          @for (
+            position of departmentSelected()!.positionList;
+            track position.id
+          ) {
+            <mat-option [value]="position.name">{{ position.name }}</mat-option>
+          }
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="input-area">
+      <mat-label>Nível: </mat-label>
+      <mat-select formControlName="seniority">
+        <mat-option [value]="'JUNIOR'">Júnior</mat-option>
+        <mat-option [value]="'PLENO'">Pleno</mat-option>
+        <mat-option [value]="'SENIOR'">Sênior</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="input-area">
+      <mat-label>Salário: </mat-label>
+      <input
+        matInput
+        formControlName="salary"
+        placeholder="R$ 1200,00"
+        type="number"
+        id="salario"
+        name="salario"
+        min="1200" />
+    </mat-form-field>
+  </fieldset>
+  <div class="flex justify-between">
+    <button routerLink="/funcionario" mat-flat-button class="mt-6 mb-8">
+      Cancelar
+    </button>
+    <button
+      [disabled]="!employeeForm().valid"
+      mat-flat-button
+      color="primary"
+      class="mt-6 mb-8 md:self-end">
+      @if (type() === 'create') {
+        Cadastrar
+      } @else {
+        Salvar Edição
+      }
+    </button>
+  </div>
+</form>

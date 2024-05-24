@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { DIALOG_DATA } from '@angular/cdk/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -12,12 +15,16 @@ import { MatButtonModule } from '@angular/material/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeRemoveComponent {
-  protected data: { id: number } = inject(DIALOG_DATA);
+  protected data = inject(MAT_DIALOG_DATA);
   private dialogRef: MatDialogRef<EmployeeRemoveComponent> = inject(
     MatDialogRef<EmployeeRemoveComponent>
   );
 
   onCancelClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
+  }
+
+  onDeleteClick() {
+    this.dialogRef.close(true);
   }
 }
