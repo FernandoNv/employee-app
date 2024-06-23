@@ -18,9 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { DepartmentService } from '../../shared/department/department.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IDepartment } from '../../shared/department/department';
+import { DepartmentService } from '../../../shared/department/department.service';
+import { IDepartment } from '../../../shared/department/department';
 
 @Component({
   selector: 'app-form-employee',

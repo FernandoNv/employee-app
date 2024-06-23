@@ -1,0 +1,19 @@
+<form (ngSubmit)="signin()" class="flex flex-col min-w-[300px] w-[400px]">
+  <h1 class="text-3xl text-[#673ab7] text-center font-semibold">
+    Identifique-se
+  </h1>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input
+      name="email"
+      id="email"
+      type="email"
+      [(ngModel)]="emailValue"
+      matInput
+      placeholder="email@email" />
+  </mat-form-field>
+  @if (error()) {
+    <mat-error class="pb-4">Email incorreto</mat-error>
+  }
+  <button color="primary" mat-flat-button>ENTRAR</button>
+</form>

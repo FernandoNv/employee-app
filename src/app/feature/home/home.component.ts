@@ -22,13 +22,13 @@ export class HomeComponent {
       title: 'Novo Funcionário',
       subtitle: 'Faça o cadastro de um novo funcionário',
       icon: 'person_add',
-      link: '/funcionario/criar',
+      link: '/app/employee/add',
     },
     {
       title: 'Listar Funcionários',
       subtitle: 'Busque por um funcionário na lista de funcionários',
       icon: 'list_alt',
-      link: '/funcionario',
+      link: '/app/employee',
     },
   ]);
 }

@@ -1,18 +1,31 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <a routerLink="/inicio">EmployeeApp</a>
+    <a routerLink="/app/home">EmployeeApp</a>
     <span class="example-spacer"></span>
-    <button mat-button [matMenuTriggerFor]="menu">
-      <mat-icon>menu</mat-icon>
-    </button>
+    <span>
+      <span>{{ name() }}</span>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </span>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/inicio">Início</button>
-      <button mat-menu-item routerLink="/funcionario/criar">
+      <button mat-menu-item routerLink="/app/home">Início</button>
+      <hr />
+      <button mat-menu-item routerLink="/app/employee/add">
         Novo Funcionário
       </button>
-      <button mat-menu-item routerLink="/funcionario">
+      <button mat-menu-item routerLink="/app/employee">
         Listar Funcionários
       </button>
+      <hr />
+      <button mat-menu-item routerLink="/app/department/add">
+        Novo Departamento
+      </button>
+      <button mat-menu-item routerLink="/app/department">
+        Listar Departamentos
+      </button>
+      <hr />
+      <button mat-menu-item (click)="signout()">Sair</button>
     </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>

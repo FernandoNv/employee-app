@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeRemoveComponent } from '../employee-remove/employee-remove.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -42,6 +42,7 @@ export class EmployeeListComponent implements OnInit {
   private employeeService = inject(EmployeeService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   protected displayedColumns = [
     'id',
@@ -63,7 +64,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   protected editEmployee(id: number): void {
-    this.router.navigate(['/funcionario', id]);
+    this.router.navigate([id], { relativeTo: this.route });
   }
 
   protected removeEmployee(employee: IEmployeeListItem): void {

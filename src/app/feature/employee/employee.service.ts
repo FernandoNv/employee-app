@@ -12,11 +12,11 @@ import {
   take,
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { IPagination } from '../shared/data-api/pagination/pagination';
 import { IEmployeeListItem } from './employee-list/employee-list.component';
 import { IEmployee } from './employee';
-import { IDataAPI } from '../shared/data-api/data-api';
 import { Sort } from '@angular/material/sort';
+import { IPagination } from '../../shared/data-api/pagination/pagination';
+import { IDataAPI } from '../../shared/data-api/data-api';
 
 @Injectable({
   providedIn: 'root',
@@ -217,6 +217,7 @@ export class EmployeeService {
       position: rawValue.contractual.position,
       seniority: rawValue.contractual.seniority,
       salary: rawValue.contractual.salary,
+      typeEmployee: rawValue.typeEmployee,
     };
 
     return employee as IEmployee;

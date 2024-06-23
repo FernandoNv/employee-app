@@ -18,7 +18,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { FormEmployeeComponent } from '../form-employee/form-employee.component';
-import { parseYMD } from '../../shared/utils/utils';
+import { parseYMD } from '../../../shared/utils/utils';
 
 @Component({
   selector: 'app-employee-edit',
@@ -128,6 +128,6 @@ export class EmployeeEditComponent {
 
     this.employeeService
       .update(this.id, valuesFormatted)
-      .subscribe(() => this.router.navigate(['/funcionario']));
+      .subscribe(() => this.router.navigate(['/'], { relativeTo: this.route }));
   }
 }

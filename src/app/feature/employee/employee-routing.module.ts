@@ -7,18 +7,13 @@ import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'listar',
-  },
-  {
-    path: 'criar',
-    component: EmployeeCreateComponent,
-    title: 'Criar Funcionário',
-  },
-  {
-    path: 'listar',
     component: EmployeeListComponent,
     title: 'Listar Funcionários',
+  },
+  {
+    path: 'add',
+    component: EmployeeCreateComponent,
+    title: 'Criar Funcionário',
   },
   {
     path: ':id',

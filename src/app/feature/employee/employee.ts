@@ -18,6 +18,7 @@ export interface IEmployee {
   };
   department: string;
   position: string;
+  typeEmployee: 'EMPLOYEE' | 'MANAGER';
 }
 
 export type ISeniority = 'JUNIOR' | 'PLENO' | 'SENIOR';

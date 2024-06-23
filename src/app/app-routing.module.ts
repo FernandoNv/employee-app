@@ -1,23 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { NotFoundComponent } from './feature/not-found/not-found.component';
+import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { AuthenticationGuard } from './core/auth/authentication-guard';
+import { SignInGuard } from './core/auth/signin-guard';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'inicio',
-  },
-  {
-    path: 'inicio',
-    component: HomeComponent,
-    title: 'Início',
-  },
-  {
-    path: 'funcionario',
+    component: AuthLayoutComponent,
+    canActivateChild: [SignInGuard],
     loadChildren: () =>
-      import('./employee/employee.module').then(m => m.EmployeeModule),
+      import('./feature/auth/auth-routing-module').then(
+        m => m.AuthRoutingModule
+      ),
+  },
+  {
+    path: 'app',
+    component: MainLayoutComponent,
+    canActivateChild: [AuthenticationGuard],
+    loadChildren: () =>
+      import('./feature/home/home-routing').then(m => m.HomeRoutingModule),
   },
   {
     path: '**',

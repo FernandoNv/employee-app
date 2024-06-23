@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormEmployeeComponent } from '../form-employee/form-employee.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
 
 @Component({
@@ -16,6 +16,7 @@ import { EmployeeService } from '../employee.service';
 })
 export class EmployeeCreateComponent {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private employeeService = inject(EmployeeService);
 
   protected employeeForm = new FormGroup({
@@ -61,6 +62,7 @@ export class EmployeeCreateComponent {
       seniority: new FormControl('', [Validators.required]),
       salary: new FormControl('', [Validators.required, Validators.min(1200)]),
     }),
+    typeEmployee: new FormControl('EMPLOYEE', [Validators.required]),
   });
 
   onSubmitValues(): void {
@@ -70,6 +72,6 @@ export class EmployeeCreateComponent {
 
     this.employeeService
       .create(valuesFormatted)
-      .subscribe(() => this.router.navigate(['/funcionario']));
+      .subscribe(() => this.router.navigate([''], { relativeTo: this.route }));
   }
 }
