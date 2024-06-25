@@ -21,6 +21,7 @@ import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DepartmentService } from '../../../shared/department/department.service';
 import { IDepartment } from '../../../shared/department/department';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-form-employee',
@@ -44,12 +45,16 @@ import { IDepartment } from '../../../shared/department/department';
   encapsulation: ViewEncapsulation.None,
 })
 export class FormEmployeeComponent {
-  departmentService = inject(DepartmentService);
   employeeForm = input.required<FormGroup>();
-  formValuesChange = output();
   type = input.required<'create' | 'update'>();
+  formValuesChange = output();
+
+  private authService = inject(AuthService);
+  private departmentService = inject(DepartmentService);
+
   protected departmentList = toSignal(this.departmentService.get());
   protected departmentSelected = signal<IDepartment | undefined>(undefined);
+  protected employee = this.authService.getEmployee();
 
   constructor() {
     effect(
@@ -70,7 +75,7 @@ export class FormEmployeeComponent {
     );
   }
 
-  onSubmitValues(): void {
+  protected onSubmitValues(): void {
     this.updateDepartmentAndPositionValueToUseIdValue();
     this.formValuesChange.emit();
   }
@@ -94,7 +99,7 @@ export class FormEmployeeComponent {
       ?.setValue(this.departmentSelected()!.id);
   }
 
-  updatePositions(event: string): void {
+  protected updatePositions(event: string): void {
     this.departmentSelected.set(
       this.departmentList()?.find(v => v.name === event)
     );

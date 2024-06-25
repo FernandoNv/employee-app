@@ -18,13 +18,15 @@
         Listar Funcionários
       </button>
       <hr />
-      <button mat-menu-item routerLink="/app/department/add">
-        Novo Departamento
-      </button>
-      <button mat-menu-item routerLink="/app/department">
-        Listar Departamentos
-      </button>
-      <hr />
+      @if (employee()?.typeEmployee === 'MANAGER') {
+        <button mat-menu-item routerLink="/app/department/add">
+          Novo Departamento
+        </button>
+        <button mat-menu-item routerLink="/app/department">
+          Listar Departamentos
+        </button>
+        <hr />
+      }
       <button mat-menu-item (click)="signout()">Sair</button>
     </mat-menu>
   </mat-toolbar-row>

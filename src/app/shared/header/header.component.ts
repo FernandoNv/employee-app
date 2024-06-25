@@ -2,9 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
-  signal,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,9 +27,9 @@ import { AuthService } from '../../core/auth/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  private authService = inject(AuthService);
-  private employee = this.authService.getEmployee();
   private router = inject(Router);
+  private authService = inject(AuthService);
+  protected employee = this.authService.getEmployee();
 
   protected name = computed(() => {
     return this.employee()?.name ?? '';

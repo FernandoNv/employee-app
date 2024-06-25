@@ -180,18 +180,20 @@
         min="1200" />
     </mat-form-field>
   </fieldset>
-  <fieldset>
-    <legend>Tipo de Funcionário</legend>
-    <mat-form-field class="input-area">
-      <mat-label>Nível: </mat-label>
-      <mat-select formControlName="typeEmployee">
-        <mat-option [value]="'EMPLOYEE'">Funcionário</mat-option>
-        <mat-option [value]="'MANAGER'">Gerente</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </fieldset>
+  @if (employee()?.typeEmployee === 'MANAGER') {
+    <fieldset>
+      <legend>Tipo de Funcionário</legend>
+      <mat-form-field class="input-area">
+        <mat-label>Nível: </mat-label>
+        <mat-select formControlName="typeEmployee">
+          <mat-option [value]="'EMPLOYEE'">Funcionário</mat-option>
+          <mat-option [value]="'MANAGER'">Gerente</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  }
   <div class="flex justify-between">
-    <button routerLink="/funcionario" mat-flat-button class="mt-6 mb-8">
+    <button routerLink="/app/employee" mat-flat-button class="mt-6 mb-8">
       Cancelar
     </button>
     <button
