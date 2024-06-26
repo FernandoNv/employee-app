@@ -1,7 +1,39 @@
 <div class="app-container">
-  <h1 class="app-title">Cadastro de Funcionário</h1>
-  <app-form-employee
-    [employeeForm]="employeeForm"
-    type="create"
-    (formValuesChange)="onSubmitValues()" />
+  <h1 class="app-title">
+    Cadastro de
+    @if (typeEmployee() === 'MANAGER') {
+      Gerente
+    } @else {
+      Funcionário
+    }
+  </h1>
+  @if (authEmployee()?.typeEmployee === 'MANAGER') {
+    <span class="pb-4 flex justify-center items-center">
+      <button
+        (click)="typeEmployee.set('EMPLOYEE')"
+        class="mr-6"
+        mat-raised-button>
+        Funcionário
+      </button>
+      <button (click)="typeEmployee.set('MANAGER')" mat-raised-button>
+        Gerente
+      </button>
+    </span>
+  }
+
+  @if (typeEmployee() === 'EMPLOYEE') {
+    <app-form-employee
+      type="create"
+      typeEmployee="EMPLOYEE"
+      [employeeForm]="employeeForm"
+      (formValuesChange)="onSubmitValues()" />
+  }
+
+  @if (typeEmployee() === 'MANAGER') {
+    <app-form-employee
+      type="create"
+      typeEmployee="MANAGER"
+      [employeeForm]="managerForm"
+      (formValuesChange)="onSubmitValues()" />
+  }
 </div>

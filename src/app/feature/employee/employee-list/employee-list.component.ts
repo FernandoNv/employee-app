@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
 } from '@angular/core';
@@ -14,6 +15,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../../core/auth/auth.service';
+import { IDataAPI } from '../../../shared/data-api/data-api';
+import { IPagination } from '../../../shared/data-api/pagination/pagination';
 
 export interface IEmployeeListItem {
   id: number;
@@ -40,6 +44,8 @@ export interface IEmployeeListItem {
 })
 export class EmployeeListComponent implements OnInit {
   private employeeService = inject(EmployeeService);
+  private authService = inject(AuthService);
+  private employeeAuth = this.authService.getEmployee();
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -52,7 +58,19 @@ export class EmployeeListComponent implements OnInit {
     'seniority',
     'actions',
   ];
-  protected employeeData = toSignal(this.employeeService.getData());
+
+  protected employeeData = toSignal(this.employeeService.getData(), {
+    initialValue: {} as IDataAPI<IPagination<IEmployeeListItem>>,
+  });
+  protected dataSource = computed(() => {
+    if (this.employeeAuth()?.typeEmployee === 'EMPLOYEE') {
+      console.log(this.employeeData()!.data!.content);
+      return this.employeeData()!.data!.content.filter(
+        e => e.position !== null
+      );
+    }
+    return this.employeeData()!.data!.content;
+  });
   protected sortData($event: Sort): void {
     this.employeeService.sortData($event);
   }

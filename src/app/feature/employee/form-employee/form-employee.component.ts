@@ -47,6 +47,7 @@ import { IDepartment } from '../../department/department';
 export class FormEmployeeComponent {
   employeeForm = input.required<FormGroup>();
   type = input.required<'create' | 'update'>();
+  typeEmployee = input.required<'EMPLOYEE' | 'MANAGER'>();
   formValuesChange = output();
 
   private authService = inject(AuthService);
@@ -91,12 +92,12 @@ export class FormEmployeeComponent {
     this.employeeForm()
       .get('contractual')
       ?.get('position')
-      ?.setValue(position!.id);
+      ?.setValue(position?.id || undefined);
 
     this.employeeForm()
       .get('contractual')
-      ?.get('department')
-      ?.setValue(this.departmentSelected()!.id);
+      ?.get('department' || undefined)
+      ?.setValue(this.departmentSelected()?.id || undefined);
   }
 
   protected updatePositions(event: string): void {

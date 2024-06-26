@@ -46,84 +46,168 @@ export class EmployeeEditComponent {
   protected readonly employee = computed(() => this.employeeDataAPI()?.data);
   protected isLoading = toSignal(this.employeeService.getLoading());
   protected employeeForm!: FormGroup;
+  protected managerForm!: FormGroup;
 
   constructor() {
     effect(() => {
       if (this.employee() !== undefined) {
-        this.employeeForm = new FormGroup({
-          name: new FormControl(this.employee()?.name, [
-            Validators.required,
-            Validators.minLength(3),
-          ]),
-          cpf: new FormControl(this.employee()?.cpf, [
-            Validators.required,
-            Validators.minLength(14),
-            Validators.maxLength(14),
-          ]),
-          email: new FormControl(this.employee()?.email, [
-            Validators.required,
-            Validators.email,
-          ]),
-          birthDate: new FormControl(parseYMD(this.employee()!.birthDate), [
-            Validators.required,
-          ]),
-          phone: new FormControl(this.employee()?.phone, [
-            Validators.required,
-            Validators.minLength(14),
-            Validators.maxLength(15),
-          ]),
-          address: new FormGroup({
-            postalCode: new FormControl(this.employee()?.address.postalCode, [
-              Validators.required,
-              Validators.maxLength(9),
-              Validators.minLength(9),
-            ]),
-            address: new FormControl(this.employee()?.address.address, [
+        if (this.employee()?.typeEmployee === 'EMPLOYEE') {
+          this.employeeForm = new FormGroup({
+            name: new FormControl(this.employee()?.name, [
               Validators.required,
               Validators.minLength(3),
             ]),
-            number: new FormControl(this.employee()?.address.number, [
-              Validators.required,
-              Validators.min(1),
-            ]),
-            neighborhood: new FormControl(
-              this.employee()?.address.neighborhood,
-              [Validators.required, Validators.minLength(3)]
+            cpf: new FormControl(
+              { value: this.employee()?.cpf, disabled: true },
+              [
+                Validators.required,
+                Validators.minLength(14),
+                Validators.maxLength(14),
+              ]
             ),
-            city: new FormControl(this.employee()?.address.city, [
+            email: new FormControl(
+              { value: this.employee()?.email, disabled: true },
+              [Validators.required, Validators.email]
+            ),
+            birthDate: new FormControl(
+              { value: parseYMD(this.employee()!.birthDate), disabled: true },
+              [Validators.required]
+            ),
+            phone: new FormControl(this.employee()?.phone, [
+              Validators.required,
+              Validators.minLength(14),
+              Validators.maxLength(15),
+            ]),
+            address: new FormGroup({
+              postalCode: new FormControl(this.employee()?.address.postalCode, [
+                Validators.required,
+                Validators.maxLength(9),
+                Validators.minLength(9),
+              ]),
+              address: new FormControl(this.employee()?.address.address, [
+                Validators.required,
+                Validators.minLength(3),
+              ]),
+              number: new FormControl(this.employee()?.address.number, [
+                Validators.required,
+                Validators.min(1),
+              ]),
+              neighborhood: new FormControl(
+                this.employee()?.address.neighborhood,
+                [Validators.required, Validators.minLength(3)]
+              ),
+              city: new FormControl(this.employee()?.address.city, [
+                Validators.required,
+                Validators.minLength(3),
+              ]),
+              state: new FormControl(this.employee()?.address.state, [
+                Validators.required,
+                Validators.maxLength(2),
+                Validators.minLength(2),
+              ]),
+              address2: new FormControl(this.employee()?.address?.address2),
+            }),
+            contractual: new FormGroup({
+              department: new FormControl(this.employee()?.department, [
+                Validators.required,
+              ]),
+              position: new FormControl(this.employee()?.position, [
+                Validators.required,
+              ]),
+              seniority: new FormControl(this.employee()?.seniority, [
+                Validators.required,
+              ]),
+              salary: new FormControl(this.employee()?.salary, [
+                Validators.required,
+                Validators.min(1200),
+              ]),
+            }),
+            typeEmployee: new FormControl(this.employee()?.typeEmployee, [
+              Validators.required,
+            ]),
+          });
+        } else {
+          this.managerForm = new FormGroup({
+            name: new FormControl(this.employee()?.name, [
               Validators.required,
               Validators.minLength(3),
             ]),
-            state: new FormControl(this.employee()?.address.state, [
+            cpf: new FormControl(
+              { value: this.employee()?.cpf, disabled: true },
+              [
+                Validators.required,
+                Validators.minLength(14),
+                Validators.maxLength(14),
+              ]
+            ),
+            email: new FormControl(
+              { value: this.employee()?.email, disabled: true },
+              [Validators.required, Validators.email]
+            ),
+            birthDate: new FormControl(
+              { value: parseYMD(this.employee()!.birthDate), disabled: true },
+              [Validators.required]
+            ),
+            phone: new FormControl(this.employee()?.phone, [
               Validators.required,
-              Validators.maxLength(2),
-              Validators.minLength(2),
+              Validators.minLength(14),
+              Validators.maxLength(15),
             ]),
-            address2: new FormControl(this.employee()?.address?.address2),
-          }),
-          contractual: new FormGroup({
-            department: new FormControl(this.employee()?.department, [
+            address: new FormGroup({
+              postalCode: new FormControl(
+                this.employee()?.address?.postalCode,
+                [
+                  Validators.required,
+                  Validators.maxLength(9),
+                  Validators.minLength(9),
+                ]
+              ),
+              address: new FormControl(this.employee()?.address?.address, [
+                Validators.required,
+                Validators.minLength(3),
+              ]),
+              number: new FormControl(this.employee()?.address?.number, [
+                Validators.required,
+                Validators.min(1),
+              ]),
+              neighborhood: new FormControl(
+                this.employee()?.address?.neighborhood,
+                [Validators.required, Validators.minLength(3)]
+              ),
+              city: new FormControl(this.employee()?.address?.city, [
+                Validators.required,
+                Validators.minLength(3),
+              ]),
+              state: new FormControl(this.employee()?.address?.state, [
+                Validators.required,
+                Validators.maxLength(2),
+                Validators.minLength(2),
+              ]),
+              address2: new FormControl(this.employee()?.address?.address2),
+            }),
+            contractual: new FormGroup({
+              department: new FormControl(''),
+              position: new FormControl(''),
+              seniority: new FormControl(''),
+              salary: new FormControl(this.employee()?.salary, [
+                Validators.required,
+                Validators.min(1200),
+              ]),
+            }),
+            typeEmployee: new FormControl(this.employee()?.typeEmployee, [
               Validators.required,
             ]),
-            position: new FormControl(this.employee()?.position, [
-              Validators.required,
-            ]),
-            seniority: new FormControl(this.employee()?.seniority, [
-              Validators.required,
-            ]),
-            salary: new FormControl(this.employee()?.salary, [
-              Validators.required,
-              Validators.min(1200),
-            ]),
-          }),
-        });
+          });
+        }
       }
     });
   }
 
   onSubmitValues(): void {
     const valuesFormatted = this.employeeService.formatDataSave(
-      this.employeeForm.getRawValue()
+      this.employee()?.typeEmployee === 'MANAGER'
+        ? this.managerForm.getRawValue()
+        : this.employeeForm.getRawValue()
     );
 
     this.employeeService

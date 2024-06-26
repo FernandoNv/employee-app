@@ -31,6 +31,7 @@
     <mat-form-field class="input-area">
       <mat-label>Cargos</mat-label>
       <mat-chip-grid
+        [disabled]="type() === 'update'"
         formArrayName="positions"
         #chipGrid
         aria-label="Adicionar Cargo">

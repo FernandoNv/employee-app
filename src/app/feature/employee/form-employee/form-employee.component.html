@@ -135,39 +135,49 @@
   </fieldset>
   <fieldset formGroupName="contractual">
     <legend>Informações Contratuais</legend>
-    <mat-form-field class="input-area">
-      <mat-label>Departamento</mat-label>
-      <mat-select
-        formControlName="department"
-        (valueChange)="updatePositions($event)">
-        @for (department of departmentList(); track department.id) {
-          <mat-option [value]="department.name">{{
-            department.name
-          }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="input-area">
-      <mat-label>Cargo: </mat-label>
-      <mat-select formControlName="position">
-        @if (departmentSelected()) {
-          @for (
-            position of departmentSelected()!.positions;
-            track position.id
-          ) {
-            <mat-option [value]="position.name">{{ position.name }}</mat-option>
+    @if (typeEmployee() === 'EMPLOYEE') {
+      <mat-form-field class="input-area">
+        <mat-label>Departamento</mat-label>
+        <mat-select
+          formControlName="department"
+          (valueChange)="updatePositions($event)">
+          @for (department of departmentList(); track department.id) {
+            <mat-option [value]="department.name">{{
+              department.name
+            }}</mat-option>
           }
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="input-area">
-      <mat-label>Nível: </mat-label>
-      <mat-select formControlName="seniority">
-        <mat-option [value]="'JUNIOR'">Júnior</mat-option>
-        <mat-option [value]="'PLENO'">Pleno</mat-option>
-        <mat-option [value]="'SENIOR'">Sênior</mat-option>
-      </mat-select>
-    </mat-form-field>
+        </mat-select>
+      </mat-form-field>
+    }
+
+    @if (typeEmployee() === 'EMPLOYEE') {
+      <mat-form-field class="input-area">
+        <mat-label>Cargo: </mat-label>
+        <mat-select formControlName="position">
+          @if (departmentSelected()) {
+            @for (
+              position of departmentSelected()!.positions;
+              track position.id
+            ) {
+              <mat-option [value]="position.name">{{
+                position.name
+              }}</mat-option>
+            }
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+
+    @if (typeEmployee() === 'EMPLOYEE') {
+      <mat-form-field class="input-area">
+        <mat-label>Nível: </mat-label>
+        <mat-select formControlName="seniority">
+          <mat-option [value]="'JUNIOR'">Júnior</mat-option>
+          <mat-option [value]="'PLENO'">Pleno</mat-option>
+          <mat-option [value]="'SENIOR'">Sênior</mat-option>
+        </mat-select>
+      </mat-form-field>
+    }
     <mat-form-field class="input-area">
       <mat-label>Salário: </mat-label>
       <input
@@ -180,18 +190,6 @@
         min="1200" />
     </mat-form-field>
   </fieldset>
-  @if (employee()?.typeEmployee === 'MANAGER') {
-    <fieldset>
-      <legend>Tipo de Funcionário</legend>
-      <mat-form-field class="input-area">
-        <mat-label>Tipo: </mat-label>
-        <mat-select formControlName="typeEmployee">
-          <mat-option [value]="'EMPLOYEE'">Funcionário</mat-option>
-          <mat-option [value]="'MANAGER'">Gerente</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </fieldset>
-  }
   <div class="flex justify-between">
     <button routerLink="/app/employee" mat-flat-button class="mt-6 mb-8">
       Cancelar

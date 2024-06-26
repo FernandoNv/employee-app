@@ -226,9 +226,9 @@ export class EmployeeService {
         address2: rawValue.address.address2,
         number: rawValue.address.number,
       },
-      department: rawValue.contractual.department,
-      position: rawValue.contractual.position,
-      seniority: rawValue.contractual.seniority,
+      department: rawValue.contractual.department || undefined,
+      position: rawValue.contractual.position || undefined,
+      seniority: rawValue.contractual.seniority || undefined,
       salary: rawValue.contractual.salary,
       typeEmployee: rawValue.typeEmployee,
     };

@@ -2,10 +2,19 @@
   @if (isLoading() === false) {
     <h1 class="app-title">Edição de Funcionário</h1>
     @if (employeeDataAPI()?.data) {
-      <app-form-employee
-        [employeeForm]="employeeForm"
-        type="update"
-        (formValuesChange)="onSubmitValues()" />
+      @if (employee()?.typeEmployee === 'EMPLOYEE') {
+        <app-form-employee
+          type="update"
+          typeEmployee="EMPLOYEE"
+          [employeeForm]="employeeForm"
+          (formValuesChange)="onSubmitValues()" />
+      } @else {
+        <app-form-employee
+          type="update"
+          typeEmployee="MANAGER"
+          [employeeForm]="managerForm"
+          (formValuesChange)="onSubmitValues()" />
+      }
     } @else {
       <h2>{{ employeeDataAPI()?.message }}</h2>
     }
