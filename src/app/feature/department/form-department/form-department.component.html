@@ -1,0 +1,76 @@
+<form
+  [formGroup]="formGroup()"
+  class="flex flex-col px-4"
+  (ngSubmit)="onSubmitValues()">
+  <fieldset>
+    <legend>Informações do Departamento</legend>
+    <mat-form-field class="input-area">
+      <mat-label>Nome: </mat-label>
+      <input
+        formControlName="name"
+        matInput
+        placeholder="Insira o nome do departamento"
+        type="text"
+        id="name"
+        name="name" />
+    </mat-form-field>
+
+    <mat-form-field class="input-area">
+      <mat-label>Gerente: </mat-label>
+      <mat-select formControlName="idManager">
+        @for (manager of managersList(); track manager.id) {
+          <mat-option [value]="manager.id">
+            {{ manager.id + ' - ' + manager.name }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </fieldset>
+  <fieldset>
+    <legend>Cargos Disponíveis</legend>
+    <mat-form-field class="input-area">
+      <mat-label>Cargos</mat-label>
+      <mat-chip-grid
+        formArrayName="positions"
+        #chipGrid
+        aria-label="Adicionar Cargo">
+        @for (position of positionsControl.value; track position) {
+          <mat-chip-row
+            (removed)="remove(position)"
+            [editable]="true"
+            (edited)="edit(position, $event)"
+            [aria-description]="'aperte enter para editar ' + position.name">
+            {{ position }}
+            <button
+              matChipRemove
+              [attr.aria-label]="'remover ' + position.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+        <input
+          placeholder="Adicionar um novo cargo"
+          [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)" />
+      </mat-chip-grid>
+    </mat-form-field>
+  </fieldset>
+  <div class="flex justify-between">
+    <button routerLink="/app/department" mat-flat-button class="mt-6 mb-8">
+      Cancelar
+    </button>
+    <button
+      [disabled]="formGroup().invalid"
+      mat-flat-button
+      color="primary"
+      class="mt-6 mb-8 md:self-end">
+      @if (type() === 'create') {
+        Cadastrar
+      } @else {
+        Salvar Edição
+      }
+    </button>
+  </div>
+</form>

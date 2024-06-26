@@ -1,0 +1,26 @@
+<div class="app-container">
+  <h2 mat-dialog-title>Remover Funcionário</h2>
+  <mat-dialog-content>
+    <p>Departamento: {{ data.department.name }}</p>
+    <p>ID: {{ data.department.id }}</p>
+    <p>Cargos:</p>
+    @for (
+      position of data.department.positions;
+      track data.department.positions.id
+    ) {
+      <p>{{ position.id + ' - ' + position.name }}</p>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions class="flex items-center justify-between">
+    <button mat-flat-button class="relative" (click)="onCancelClick()">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      color="warn"
+      class="relative"
+      (click)="onDeleteClick()">
+      Remover
+    </button>
+  </mat-dialog-actions>
+</div>

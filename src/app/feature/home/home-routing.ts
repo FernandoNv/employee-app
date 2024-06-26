@@ -23,6 +23,13 @@ const routes: Routes = [
             m => m.EmployeeRoutingModule
           ),
       },
+      {
+        path: 'department',
+        loadChildren: () =>
+          import('../department/department-routing.module').then(
+            m => m.DepartmentRoutingModule
+          ),
+      },
     ],
   },
 ];

@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   inject,
-  signal,
 } from '@angular/core';
 import { PageOptionComponent } from './page-option/page-option.component';
 import { AuthService } from '../../core/auth/auth.service';
@@ -15,7 +14,7 @@ interface IPageOption {
   link: string;
 }
 
-const OPTIONS = [
+const OPTIONS: IPageOption[] = [
   {
     title: 'Novo Funcionário',
     subtitle: 'Faça o cadastro de um novo funcionário',

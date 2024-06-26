@@ -19,9 +19,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DepartmentService } from '../../../shared/department/department.service';
-import { IDepartment } from '../../../shared/department/department';
 import { AuthService } from '../../../core/auth/auth.service';
+import { DepartmentService } from '../../department/department.service';
+import { IDepartment } from '../../department/department';
 
 @Component({
   selector: 'app-form-employee',
@@ -84,7 +84,7 @@ export class FormEmployeeComponent {
     const positionValue = this.employeeForm()
       .get('contractual')
       ?.get('position')?.value;
-    const position = this.departmentSelected()?.positionList.find(
+    const position = this.departmentSelected()?.positions.find(
       p => p.name === positionValue
     );
 

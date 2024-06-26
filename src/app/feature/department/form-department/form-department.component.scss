@@ -1,0 +1,13 @@
+:host{
+  @apply block;
+
+  form{
+    fieldset{
+      @apply border-2 border-gray-100 p-4 text-gray-500 text-base mb-4;
+
+      .input-area{
+        @apply  w-full pb-4;
+      }
+    }
+  }
+}

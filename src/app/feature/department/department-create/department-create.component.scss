@@ -1,0 +1,10 @@
+:host{
+  @apply block;
+
+  .app-container{
+    .app-title{
+      @apply text-center p-4;
+      margin: 0;
+    }
+  }
+}

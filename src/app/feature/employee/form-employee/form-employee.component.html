@@ -152,7 +152,7 @@
       <mat-select formControlName="position">
         @if (departmentSelected()) {
           @for (
-            position of departmentSelected()!.positionList;
+            position of departmentSelected()!.positions;
             track position.id
           ) {
             <mat-option [value]="position.name">{{ position.name }}</mat-option>
@@ -184,7 +184,7 @@
     <fieldset>
       <legend>Tipo de Funcionário</legend>
       <mat-form-field class="input-area">
-        <mat-label>Nível: </mat-label>
+        <mat-label>Tipo: </mat-label>
         <mat-select formControlName="typeEmployee">
           <mat-option [value]="'EMPLOYEE'">Funcionário</mat-option>
           <mat-option [value]="'MANAGER'">Gerente</mat-option>

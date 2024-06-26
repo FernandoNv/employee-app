@@ -154,6 +154,19 @@ export class EmployeeService {
     );
   }
 
+  public getManagers(): Observable<IEmployeeListItem[]> {
+    const url = `${this.API_URL}/employees/managers`;
+    this.loading$.next(true);
+
+    return this.http.get<IPagination<IEmployeeListItem>>(url).pipe(
+      retry(3),
+      map(next => {
+        return next.content;
+      }),
+      finalize(() => this.loading$.next(false))
+    );
+  }
+
   public connect(): void {
     this.getAll();
   }

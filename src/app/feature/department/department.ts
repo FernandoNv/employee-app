@@ -1,10 +1,11 @@
 export interface IDepartment {
-  id: number;
+  id?: number;
   name: string;
-  positionList: IPosition[];
+  idManager: number;
+  positions: IPosition[];
 }
 
 export interface IPosition {
-  id: number;
+  id?: number;
   name: string;
 }
