@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DepartmentListComponent } from './department-list/department-list.component';
 import { DepartmentCreateComponent } from './department-create/department-create.component';
+import { DepartmentEditComponent } from './department-edit/department-edit.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
     path: 'add',
     component: DepartmentCreateComponent,
     title: 'Criar Departamento',
+  },
+  {
+    path: ':id',
+    component: DepartmentEditComponent,
+    title: 'Editar Departamento',
   },
 ];
 

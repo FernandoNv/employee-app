@@ -4,10 +4,6 @@ import { FormDepartmentComponent } from '../form-department/form-department.comp
 import { DepartmentService } from '../department.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-export interface Position {
-  name: string;
-}
-
 @Component({
   selector: 'app-department-create',
   standalone: true,
@@ -23,8 +19,8 @@ export class DepartmentCreateComponent {
   private route = inject(ActivatedRoute);
 
   protected formGroup = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    idManager: ['', [Validators.required, Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    idManager: ['', [Validators.required]],
     positions: this.formBuilder.array(
       [],
       [Validators.required, Validators.minLength(1)]
@@ -38,6 +34,8 @@ export class DepartmentCreateComponent {
 
     this.departmentService
       .create(data)
-      .subscribe(() => this.router.navigate([''], { relativeTo: this.route }));
+      .subscribe(() =>
+        this.router.navigate(['/app/department'], { relativeTo: this.route })
+      );
   }
 }

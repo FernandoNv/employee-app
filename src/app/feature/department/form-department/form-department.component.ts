@@ -1,4 +1,10 @@
-import { Component, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +26,10 @@ import { RouterLink } from '@angular/router';
 import { EmployeeService } from '../../employee/employee.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Position } from '../department-create/department-create.component';
+
+export interface Position {
+  name: string;
+}
 
 @Component({
   selector: 'app-form-department',
@@ -38,6 +47,7 @@ import { Position } from '../department-create/department-create.component';
   ],
   templateUrl: './form-department.component.html',
   styleUrl: './form-department.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormDepartmentComponent {
   formGroup = input.required<FormGroup>();
